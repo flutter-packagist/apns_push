@@ -13,7 +13,7 @@
 ## 引入安装包
  
 ```dart
-addcn_socket:
+apns_push:
   git:
     url: https://github.com/flutter-packagist/apns_push.git
 ```
