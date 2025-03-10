@@ -233,7 +233,7 @@ extension ApnsPushPlugin {
 //             alertC.addAction(action)
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) { [weak self] in
                 guard let self = self else { return }
-                self.refreshBadge()
+                self.badgeNumberSub()
 //                UIApplication.shared.keyWindow?.rootViewController?.present(alertC, animated: true)
                 // 延时回调，等待Flutter引擎初始化完成再回调
                 ApnsPushPlugin.channel.invokeMethod(PushMethod.onInAppMessageClick.rawValue, arguments: remoteNotification)
@@ -242,10 +242,10 @@ extension ApnsPushPlugin {
         return true
     }
     
-    public func applicationWillResignActive(_ application: UIApplication) {
-        // App即将进入后台时，更正角标数量和通知栏现有通知数量一致
-        refreshBadge()
-    }
+//    public func applicationWillResignActive(_ application: UIApplication) {
+//        // App即将进入后台时，更正角标数量和通知栏现有通知数量一致
+//        refreshBadge()
+//    }
     
     
     public func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
@@ -290,7 +290,8 @@ extension ApnsPushPlugin {
     // 点击通知触发该方法
     public func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         let userInfo = response.notification.request.content.userInfo
-        refreshBadge()
+//        refreshBadge()
+        self.badgeNumberSub()
         ApnsPushPlugin.channel.invokeMethod(PushMethod.onOpenNotification.rawValue, arguments: userInfo)
         completionHandler()
     }
