@@ -1,6 +1,6 @@
 name: apns_push
 description: ”iOS-APNS-Push-Notification-Plugin”"
-version: 1.0.1
+version: 1.0.2
 homepage: https://github.com/flutter-packagist/apns_push.git
 
 environment:

@@ -43,30 +43,16 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(
-          title: const Text('推送通知測試'),
-        ),
+        appBar: AppBar(title: const Text('推送通知測試')),
         body: Padding(
           padding: const EdgeInsets.all(10.0),
           child: Column(
             children: [
-              const SizedBox(height: 20),
-              const Text(
-                "信息顯示",
-                style: TextStyle(fontSize: 20, color: Colors.blue),
-              ),
-              const SizedBox(height: 20),
-              SelectableText(
-                info,
-                maxLines: 10,
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                    fontSize: 16, color: Colors.black, height: 1.5),
-              ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10, width: double.infinity),
               Wrap(
                 alignment: WrapAlignment.center,
                 spacing: 10,
+                runSpacing: 0,
                 direction: Axis.horizontal,
                 children: [
                   TextButton(
@@ -144,34 +130,24 @@ class _MyAppState extends State<MyApp> {
                   TextButton(
                     child: const Text('角標數字加1'),
                     onPressed: () async {
+                      final value = await _apnsPushPlugin.getBadgeNum();
+                      _setInfo("加1後的角標數字: ${value + 1}");
                       _apnsPushPlugin.badgeNumberAdd();
-                      _apnsPushPlugin.getBadgeNum().then(
-                        (value) {
-                          _setInfo("加1後的角標數字: $value");
-                        },
-                      );
                     },
                   ),
                   TextButton(
                     child: const Text('角標數字減1'),
                     onPressed: () async {
+                      final value = await _apnsPushPlugin.getBadgeNum();
+                      _setInfo("減1後的角標數字: ${value - 1}");
                       _apnsPushPlugin.badgeNumberSub();
-                      _apnsPushPlugin.getBadgeNum().then(
-                        (value) {
-                          _setInfo("減1後的角標數字: $value");
-                        },
-                      );
                     },
                   ),
                   TextButton(
                     child: const Text('關閉角標'),
                     onPressed: () async {
                       _apnsPushPlugin.setBadge(0);
-                      _apnsPushPlugin.getBadgeNum().then(
-                        (value) {
-                          _setInfo("当前角標數字: $value");
-                        },
-                      );
+                      _setInfo("關閉角標后的数字: 0");
                     },
                   ),
                   TextButton(
@@ -186,6 +162,20 @@ class _MyAppState extends State<MyApp> {
                   ),
                 ],
               ),
+              const SizedBox(height: 10),
+              const Text(
+                "信息顯示",
+                style: TextStyle(fontSize: 20, color: Colors.blue),
+              ),
+              const SizedBox(height: 10),
+              SelectableText(
+                info,
+                // maxLines: 10,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                    fontSize: 16, color: Colors.black, height: 1.5),
+              ),
+              const SizedBox(height: 20),
             ],
           ),
         ),
