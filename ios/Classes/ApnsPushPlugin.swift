@@ -35,15 +35,12 @@ public class ApnsPushPlugin: NSObject, FlutterPlugin, UNUserNotificationCenterDe
     let shareGroupData: UserDefaults? = UserDefaults.init(suiteName: "group.100.shareData")
     
     private var deviceAPNsToken: String = ""
-    private var showNotificationAtTheForeground: Bool = false
-
     private var launchRemoteNotification:[String : Any] = [:]
 
     public override init() {
         super.init()
         userCenter.delegate = self
         deviceAPNsToken = UserDefaults.standard.string(forKey: "iOS_DeviceToken") ?? ""
-        showNotificationAtTheForeground =  UserDefaults.standard.bool(forKey: "iOS_ShowNotificationAtTheForeground")
     }
     
 
@@ -95,11 +92,6 @@ public class ApnsPushPlugin: NSObject, FlutterPlugin, UNUserNotificationCenterDe
             // 跳转到应设置界面
             case "openSettingsForNotification":
                 openNotificationSettings()
-            
-            // 应用程序在前台运行时，是否显示通知
-            case "setUnShowAtTheForeground":
-                let showN: Bool = call.arguments as? Bool ?? false
-                UserDefaults.standard.set(showN, forKey: "iOS_ShowNotificationAtTheForeground")
             
             // 获取通过推送启动App的参数
             case "getLaunchAppNotification":
@@ -266,10 +258,11 @@ extension ApnsPushPlugin {
         let userInfo = notification.request.content.userInfo
         print("前台收到推送(willPresent): \(userInfo)")
         ApnsPushPlugin.channel.invokeMethod(PushMethod.onReceiveNotification.rawValue, arguments: userInfo)
-        if(!showNotificationAtTheForeground) {
-            completionHandler([])
-        }else{
-            completionHandler([.alert, .sound, .badge])
+        if  let aps = userInfo["aps"] as? [String : Any] {
+            let contentAvailable = aps["content-available"] as? Int
+            if((contentAvailable) != 0){
+                completionHandler([.alert, .sound, .badge])
+            }
         }
     }
     

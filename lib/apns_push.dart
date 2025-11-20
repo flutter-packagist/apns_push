@@ -73,11 +73,6 @@ class APNsPush {
     return APNsPushPlatform.instance.badgeNumberSub();
   }
 
-  /// APP活跃在前台时是否展示通知
-  void setUnShowAtTheForeground({bool unShow = false}) {
-    APNsPushPlatform.instance.setUnShowAtTheForeground(unShow: unShow);
-  }
-
   ///
   /// 清空通知栏上的所有通知。
   ///
@@ -175,11 +170,6 @@ abstract class APNsPushPlatform extends PlatformInterface {
 
   Future badgeNumberSub() async {
     throw UnimplementedError('badgeNumberSub() has not been implemented.');
-  }
-
-  void setUnShowAtTheForeground({bool unShow = false}) {
-    throw UnimplementedError(
-        'setUnShowAtTheForeground() has not been implemented.');
   }
 
   Future clearAllNotifications() async {
@@ -308,12 +298,6 @@ class MethodChannelAPNsPush extends APNsPushPlatform {
   @override
   Future badgeNumberSub() async {
     return methodChannel.invokeMethod('badgeNumberSub');
-  }
-
-  /// APP活跃在前台时是否展示通知
-  @override
-  void setUnShowAtTheForeground({bool unShow = false}) {
-    methodChannel.invokeMethod('setUnShowAtTheForeground', unShow);
   }
 
   ///

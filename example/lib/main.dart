@@ -88,12 +88,6 @@ class _MyAppState extends State<MyApp> {
                     },
                   ),
                   TextButton(
-                    child: const Text('設定前景不顯示通知'),
-                    onPressed: () async {
-                      _apnsPushPlugin.setUnShowAtTheForeground(unShow: true);
-                    },
-                  ),
-                  TextButton(
                     child: const Text('清除所有通知'),
                     onPressed: () async {
                       _apnsPushPlugin.clearAllNotifications();
