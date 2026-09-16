@@ -4,7 +4,7 @@
 #
 Pod::Spec.new do |s|
   s.name             = 'apns_push'
-  s.version          = '0.0.1'
+  s.version          = '1.1.0'
   s.summary          = 'A new Flutter project.'
   s.description      = <<-DESC
 A new Flutter project.
@@ -13,7 +13,8 @@ A new Flutter project.
   s.license          = { :file => '../LICENSE' }
   s.author           = { 'Your Company' => 'email@example.com' }
   s.source           = { :path => '.' }
-  s.source_files = 'Classes/**/*'
+  # Keep CocoaPods support while the same source is also consumed by SwiftPM.
+  s.source_files = 'apns_push/Sources/apns_push/**/*.swift'
   s.dependency 'Flutter'
   s.platform = :ios, '12.0'
 
